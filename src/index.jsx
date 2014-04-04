@@ -17,4 +17,16 @@ myDataRef.on('child_added', function(snapshot) {
 function displayChatMessage(name, text) {
   $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
   $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-};
+}
+
+class Character {
+  constructor(x, y, name) {
+    this.x = x;
+    this.y = y;
+  }
+  attack(character) {
+    console.log('attacking', character);
+  }
+}
+
+console.log('hello world');

@@ -1,0 +1,19 @@
+{
+  "name": "AwesomeSauce",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "vinyl-source-stream": "^0.1.1",
+    "browserify": "^3.38.0",
+    "gulp-clean": "^0.2.4",
+    "es6ify": "^1.1.0",
+    "reactify": "^0.10.0"
+  }
+}
