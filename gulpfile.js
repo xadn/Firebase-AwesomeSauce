@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
-    es6ify = require('es6ify'),
     reactify = require('reactify'),
     browserify = require('browserify'),
     clean = require('gulp-clean');
@@ -8,7 +7,7 @@ var gulp = require('gulp'),
 gulp.task('default', ['clean', 'scripts', 'watch']);
 
 gulp.task('watch', function() {
-  gulp.watch('src', ['scripts']);
+  gulp.watch('src/*', ['scripts']);
 });
 
 gulp.task('clean', function() {
@@ -19,12 +18,8 @@ gulp.task('clean', function() {
 gulp.task('scripts', function() {
   browserify('./src/index.jsx')
     .transform({es6: true}, reactify)
-    // .add(es6ify.runtime)
-    // .transform(es6ify)
-    // .require('./src/index.jsx', {entry: true})
     .bundle({debug: true})
     .pipe(source('index.js'))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build'))
+    .on('error', console.log);
 });
-
- // .require(require.resolve('./src/main.js'), { entry: true })

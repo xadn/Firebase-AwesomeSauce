@@ -1,32 +1,67 @@
+var React = require('react/addons'),
+    _ = require('lodash');
+
 var myDataRef = new Firebase('https://dymcvl2kwer.firebaseio-demo.com/');
 
-$('#messageInput').keypress(function (e) {
-  if (e.keyCode == 13) {
-    var name = $('#nameInput').val();
-    var text = $('#messageInput').val();
-    myDataRef.push({name: name, text: text});
-    $('#messageInput').val('');
+// var Message = React.createClass({
+//   mixins: [React.addons.LinkedStateMixin],
+
+//   getInitialState: function() {
+//     return { name: '', text: '' };
+//   },
+
+//   handleSubmit: function() {
+//     return false;
+//   },
+
+//   handleTextChange: function() {
+
+//   },
+
+//   render: function() {
+//     return (
+//       <form onSubmit={this.handleSubmit}>
+//         <span>Name: {this.state.name}</span>
+//         <input type='text' value={this.state.text} onChange={this.handleTextChange} placeholder='Message' />
+//         <input type='submit' value='Post' />
+//       </form>
+//     );
+//   }
+// });
+
+var Messages = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
+  getInitialState: function() {
+    return { name: '', text: '', messages: [] };
+  },
+
+  componentWillMount: function() {
+    this.props.dataRef.on('value', snapshot => {
+      this.setState({messages: snapshot.val()});
+    });
+  },
+
+  handleSubmit: function() {
+    this.props.dataRef.push({ name: this.state.name, text: this.state.text });
+    this.setState({ text: '' });
+    return false;
+  },
+
+  render: function() {
+    return (
+      <div>
+        {_.map(this.state.messages, function(message, key) {
+          return <div key={key}>Name: {message.name}, Text: {message.text}</div>
+        })}
+        <form onSubmit={this.handleSubmit}>
+          <input type='text' valueLink={this.linkState('name')} placeholder='Name' />
+          <input type='text' valueLink={this.linkState('text')} placeholder='Message' />
+          <input type='submit' value='Post' />
+        </form>
+      </div>
+    );
   }
 });
 
-myDataRef.on('child_added', function(snapshot) {
-  var message = snapshot.val();
-  displayChatMessage(message.name, message.text);
-});
-
-function displayChatMessage(name, text) {
-  $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-  $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-}
-
-class Character {
-  constructor(x, y, name) {
-    this.x = x;
-    this.y = y;
-  }
-  attack(character) {
-    console.log('attacking', character);
-  }
-}
-
-console.log('hello world');
+React.renderComponent(<Messages dataRef={myDataRef} />, document.body);
