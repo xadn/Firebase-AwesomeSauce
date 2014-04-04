@@ -1,83 +1,8 @@
-var React = require('react/addons'),
-    _ = require('lodash');
+var _ = require('lodash'),
+    React = require('react/addons'),
+    Message = require('./message');
 
 var myDataRef = new Firebase('https://dymcvl2kwer.firebaseio-demo.com/');
-
-var AutosaveInput = React.createClass({
-  getInitialState: function() {
-    return { value: '' };
-  },
-
-  componentWillMount: function() {
-    this.props.valueRef.on('value', this.receiveChange);
-  },
-
-  componentWillUnmount: function() {
-    this.props.valueRef.off('value', this.receiveChange);
-  },
-
-  receiveChange: function(snapshot) {
-    this.setState({ value: snapshot.val() });
-  },
-
-  sendChange: function(e) {
-    this.props.valueRef.set(e.target.value);
-  },
-
-  render: function() {
-    return <input type='text' value={this.state.value} onChange={this.sendChange} placeholder={this.props.placeholder} />
-  }
-});
-
-var AutoLabel = React.createClass({
-  getInitialState: function() {
-    return { value: '' };
-  },
-
-  componentWillMount: function() {
-    this.props.valueRef.on('value', this.receiveChange);
-  },
-
-  componentWillUnmount: function() {
-    this.props.valueRef.off('value', this.receiveChange);
-  },
-
-  receiveChange: function(snapshot) {
-    this.setState({ value: snapshot.val() });
-  },
-
-  render: function() {
-    return <span>{this.state.value}</span>
-  }
-});
-
-var Message = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
-
-  getInitialState: function() {
-    return { name: '', text: '' };
-  },
-
-  componentWillMount: function() {
-    this.props.messageRef.on('value', snapshot => {
-      this.setState({ name: snapshot.val().name });
-    });
-  },
-
-  handleTextChange: function(e) {
-    this.props.messageRef.child('text').set(e.target.value);
-  },
-
-  render: function() {
-    return (
-      <div>
-        <span>Name: {this.state.name}</span>
-        <AutosaveInput type='text' placeholder='Name' valueRef={this.props.messageRef.child('text')} />
-      </div>
-    );
-  }
-});
-
 
 var Messages = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
