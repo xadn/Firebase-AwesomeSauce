@@ -8,7 +8,7 @@ var Message = React.createClass({
     return (
       <div>
         <AutoLabel valueRef={this.props.messageRef.child('name')} />
-        <AutosaveInput type='text' placeholder='Name' valueRef={this.props.messageRef.child('text')} />
+        <AutosaveInput type='text' placeholder='Message' valueRef={this.props.messageRef.child('text')} />
       </div>
     );
   }

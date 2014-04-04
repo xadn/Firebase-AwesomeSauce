@@ -16,7 +16,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('scripts', function() {
-  browserify('./src/index.jsx')
+  browserify('./src/index.js')
     .transform({es6: true}, reactify)
     .bundle({debug: true})
     .pipe(source('index.js'))
