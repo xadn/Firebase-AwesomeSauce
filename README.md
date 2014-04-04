@@ -10,3 +10,4 @@ Testing out Firebase + React
 * [ ] Firebase validation/auth
 * [ ] Benchmark overhead of fine grained Firebase event listeners
 * [ ] Model/Services layer?
+* [ ] How the hell do people write specs for React?
