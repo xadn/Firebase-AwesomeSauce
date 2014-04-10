@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
-var React = require('react');
+var React = require('react'),
+    goog = require('diff-match-patch'),
+    dmp = new goog.diff_match_patch();
 
 var AutosaveInput = React.createClass({
   getInitialState: function() {
@@ -19,7 +21,11 @@ var AutosaveInput = React.createClass({
   },
 
   sendChange: function(e) {
-    this.props.valueRef.set(e.target.value);
+    var patch = dmp.patch_make(this.state.value, e.target.value);
+
+    this.props.valueRef.transaction(function(serverValue) {
+      return dmp.patch_apply(patch, serverValue)[0];
+    });
   },
 
   render: function() {
